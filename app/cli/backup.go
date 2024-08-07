@@ -41,13 +41,13 @@ func NewBackupCLI() *cobra.Command {
 			initUseCase.BackupNow(ctx, usecase.RequestBackupNow{
 				FilePath:       args[0],
 				RemoveBackup:   cmd.Flag("remove-backup").Value.String() == "true",
-				HowOldDuration: time.Duration(-durationInt) * time.Minute,
+				HowOldDuration: time.Duration(-durationInt) * time.Hour,
 				Parents:        []string{cmd.Flag("parents").Value.String()},
 			})
 		},
 	}
 	command.Flags().String("path", "", "file path to backup")
-	command.Flags().Int("duration", 1, "how old duration in minute for remove backup in drive")
+	command.Flags().Int("duration", 1, "how old duration in Hour for remove backup in drive")
 	command.Flags().String("parents", "", "parents for backup")
 	command.Flags().Bool("remove-backup", false, "RemoveBackup")
 

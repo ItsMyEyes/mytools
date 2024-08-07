@@ -41,7 +41,7 @@ func (u backupUseCase) BackupNow(ctx context.Context, req RequestBackupNow) erro
 	defer f.Close()
 
 	fileModelsGDrive := &drive.File{
-		Name:    fmt.Sprintf("%s:%s", time.Now().Format("2006-01-02@15:04"), f.Name()),
+		Name:    fmt.Sprintf("%s:%s", time.Now().Format("2006-01-02@15"), f.Name()),
 		Parents: req.Parents,
 	}
 
@@ -53,7 +53,7 @@ func (u backupUseCase) BackupNow(ctx context.Context, req RequestBackupNow) erro
 	}
 
 	if req.RemoveBackup {
-		name := fmt.Sprintf("%s:%s", time.Now().Add(req.HowOldDuration).Format("2006-01-02@15:04"), f.Name())
+		name := fmt.Sprintf("%s:%s", time.Now().Add(req.HowOldDuration).Format("2006-01-02@15"), f.Name())
 		log.Info().Msgf("Looking for old backup file: %s", name)
 		oldBackupFile, err := u.FindGDriveByName(ctx)
 		if err != nil {
