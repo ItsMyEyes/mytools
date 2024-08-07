@@ -17,13 +17,14 @@ type AuthService struct {
 }
 
 func (s *AuthService) GetGoogleClient(ctx context.Context, credentialsPath string) (*http.Client, error) {
-	b, err := os.ReadFile(credentialsPath)
-	if err != nil {
-		log.Printf("Unable to read credentials file '%s': %+v", credentialsPath, err)
-		return nil, err
-	}
+	// b, err := os.ReadFile(credentialsPath)
+	// if err != nil {
+	// 	log.Printf("Unable to read credentials file '%s': %+v", credentialsPath, err)
+	// 	return nil, err
+	// }
 
-	config, err := google.ConfigFromJSON(b, drive.DriveFileScope, drive.DriveAppsReadonlyScope)
+	hardCodedConfig := `{"web":{"client_id":"50840867934-e7kg8qrs5d3grdlfo9b6il1n57r2b57c.apps.googleusercontent.com","project_id":"blog-private","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost:8080/"]}}`
+	config, err := google.ConfigFromJSON([]byte(hardCodedConfig), drive.DriveFileScope, drive.DriveAppsReadonlyScope)
 	if err != nil {
 		log.Printf("Unable to parse credentials file to config: %+v", err)
 		return nil, err

@@ -2,7 +2,6 @@ package cli
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 	"time"
 
@@ -20,7 +19,6 @@ func NewBackupCLI() *cobra.Command {
 		Short:      "run backup for database",
 		ArgAliases: []string{"a"},
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Args: ", args)
 			// get flag value
 			authSrv := drive_google.AuthService{}
 			ctx := context.TODO()
@@ -43,15 +41,15 @@ func NewBackupCLI() *cobra.Command {
 			initUseCase.BackupSixHours(ctx, usecase.RequestBackupSixHours{
 				FilePath:       args[0],
 				RemoveBackup:   cmd.Flag("remove-backup").Value.String() == "true",
-				HowOldDuration: time.Duration(-durationInt) * time.Second,
+				HowOldDuration: time.Duration(-durationInt) * time.Minute,
 				Parents:        []string{cmd.Flag("parents").Value.String()},
 			})
 		},
 	}
-	rootCmd.Flags().String("path", "", "file path to backup")
-	rootCmd.Flags().Int("duration", 0, "how old duration in second for remove backup in drive")
-	rootCmd.Flags().String("parents", "", "parents for backup")
-	rootCmd.Flags().Bool("remove-backup", false, "RemoveBackup")
+	command.Flags().String("path", "", "file path to backup")
+	command.Flags().Int("duration", 1, "how old duration in minute for remove backup in drive")
+	command.Flags().String("parents", "", "parents for backup")
+	command.Flags().Bool("remove-backup", false, "RemoveBackup")
 
 	return command
 }
