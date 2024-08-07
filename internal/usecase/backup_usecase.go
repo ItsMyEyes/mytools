@@ -10,7 +10,7 @@ import (
 )
 
 type BackupUsecase interface {
-	BackupSixHours(ctx context.Context, req RequestBackupSixHours) error
+	BackupNow(ctx context.Context, req RequestBackupNow) error
 }
 
 type backupUseCase struct {
@@ -23,14 +23,15 @@ func NewBackupUsecase(driveServices *drive.Service) BackupUsecase {
 	}
 }
 
-type RequestBackupSixHours struct {
+type RequestBackupNow struct {
 	FilePath       string
 	RemoveBackup   bool
 	HowOldDuration time.Duration
 	Parents        []string
 }
 
-func (u backupUseCase) BackupSixHours(ctx context.Context, req RequestBackupSixHours) error {
+func (u backupUseCase) BackupNow(ctx context.Context, req RequestBackupNow) error {
+	log.Info().Msgf("Backup file: %s to GDrive", req.FilePath)
 	f, err := os.Open(req.FilePath)
 	if err != nil {
 		err = fmt.Errorf("[BackupUseCase] Path %s Failed to open file: %w", req.FilePath, err)
