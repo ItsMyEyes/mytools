@@ -38,7 +38,7 @@ func NewBackupCLI() *cobra.Command {
 			}
 			durationInt, _ := strconv.Atoi(cmd.Flag("duration").Value.String())
 			initUseCase := usecase.NewBackupUsecase(srv)
-			initUseCase.BackupSixHours(ctx, usecase.RequestBackupSixHours{
+			initUseCase.BackupNow(ctx, usecase.RequestBackupNow{
 				FilePath:       args[0],
 				RemoveBackup:   cmd.Flag("remove-backup").Value.String() == "true",
 				HowOldDuration: time.Duration(-durationInt) * time.Minute,
